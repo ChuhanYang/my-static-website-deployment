@@ -1,15 +1,21 @@
-name: DeployStaticWebsite
+SchemaVersion: 1.0
+Name: DeployStaticWebsite
 
-triggers:
-  - type: push
-    branches:
+Triggers:
+  - Type: Push
+    Branches:
       - main
 
-actions:
-  deploy:
-    identifier: aws/cli@v1
-    inputs:
-      sources:
-        - source: "source"
-      commands:
+Actions:
+  Deploy:
+    Identifier: aws/codebuild@v1
+    Environment:
+      ComputeType: BUILD_GENERAL1_SMALL
+      Image: aws/codebuild/standard:5.0
+      PrivilegedMode: false
+    Inputs:
+      Sources:
+        - Source: "source"
+      Commands:
+        - npm install -g aws-cli  # if needed
         - aws s3 sync . s3://my-static-website-ych --delete
