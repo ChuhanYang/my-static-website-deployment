@@ -1,0 +1,15 @@
+name: DeployStaticWebsite
+
+triggers:
+  - type: push
+    branches:
+      - main
+
+actions:
+  deploy:
+    identifier: aws/cli@v1
+    inputs:
+      sources:
+        - source: "source"
+      commands:
+        - aws s3 sync . s3://my-static-website-ych --delete
